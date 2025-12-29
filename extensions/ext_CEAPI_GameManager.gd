@@ -1,10 +1,12 @@
 extends "res://Globals/GameManager.gd"
 
+var contentContainer
+
 func spawn_enemy(type: Enemy.EnemyType):
-	if type <= ContentContainer.vanilla_enum_limit:
+	if type <= contentContainer.vanilla_enum_limit:
 		return super.spawn_enemy(type)
 		
-	var new_enemy = ContentContainer.custom_enemies[type].scene.instantiate()
+	var new_enemy = contentContainer.custom_enemies[type].scene.instantiate()
 	new_enemy.add_to_group("enemy")	
 	enemy_count += 1
 	hosts.append(new_enemy)
@@ -14,9 +16,13 @@ func _ready():
 
 	super._ready()
 
-	ContentContainer.instance.call_initialize_signal()
+	contentContainer = get_node("/root/ModLoader/TheTimesweeper-CustomEnemyAPI/ContentContainer")
+	
+	ModLoaderLog.error("ready gamemanager", "CEAPI")
 
-	ContentContainer.add_enemies_to_game()
+	contentContainer.call_initialize_signal()
+
+	contentContainer.add_enemies_to_game()
 		
 #func get_player_skin_paths_for_enemy_type(enemy_type):
 	#

@@ -18,21 +18,22 @@ var mod_dir_path := ""
 var extensions_dir_path := ""
 var translations_dir_path := ""
 
+var contentContainer : Node
 
 # ! your _ready func.
 func _init() -> void:
-	ModLoaderLog.info("Init", LOG_NAME)
+	ModLoaderLog.error("Init", LOG_NAME)
 	mod_dir_path = ModLoaderMod.get_unpacked_dir().path_join(MOD_DIR)
 
-	_add_child_class()
+	add_child_class()
 
 	# Add extensions
 	install_script_extensions()
 	# install_script_hook_files()
 
-# thanks https://wiki.godotmodding.com/guides/modding/global_classes_and_child_nodes/
-func _add_child_class():
-	var contentContainer = load("res://mods-unpacked/TheTimesweeper-CustomEnemyAPI/content_container.gd").new()
+# thanks brotato https://wiki.godotmodding.com/guides/modding/global_classes_and_child_nodes/
+func add_child_class():
+	contentContainer = load("res://mods-unpacked/TheTimesweeper-CustomEnemyAPI/content_container.gd").new()
 	contentContainer.name = "ContentContainer"
 	add_child(contentContainer)
 	contentContainer._init()
@@ -42,12 +43,7 @@ func install_script_extensions() -> void:
 	extensions_dir_path = mod_dir_path.path_join("extensions")
 
 	# ? Brief description/reason behind this edit of vanilla code...
-	ModLoaderMod.install_script_extension(extensions_dir_path.path_join("ext_GameManager.gd"))
-	#ModLoaderMod.install_script_extension(ext_dir + "entities/units/player/player.gd") # ! Note that this file does not exist in this example mod
-
-	# ! Add extensions (longform version of the above)
-	#ModLoaderMod.install_script_extension("res://mods-unpacked/AuthorName-ModName/extensions/main.gd")
-	#ModLoaderMod.install_script_extension("res://mods-unpacked/AuthorName-ModName/extensions/entities/units/player/player.gd")
+	ModLoaderMod.install_script_extension(extensions_dir_path.path_join("ext_CEAPI_GameManager.gd"))
 
 
 func install_script_hook_files() -> void:
@@ -56,10 +52,7 @@ func install_script_hook_files() -> void:
 
 
 func _ready() -> void:
-	ModLoaderLog.info("Ready", LOG_NAME)
-
-	# ! This uses Godot's native `tr` func, which translates a string. You'll
-	# ! find this particular string in the example CSV here: translations/modname.csv
-	ModLoaderLog.info("Translation Demo: " + tr("MODNAME_READY_TEXT"), LOG_NAME)
+	ModLoaderLog.error("ready", LOG_NAME)
+	pass
 
 
