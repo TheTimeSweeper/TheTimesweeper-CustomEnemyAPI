@@ -18,11 +18,9 @@ func _ready():
 
 	contentContainer = get_node("/root/ModLoader/TheTimesweeper-CustomEnemyAPI/ContentContainer")
 	
-	ModLoaderLog.error("ready gamemanager", "CEAPI")
-
 	contentContainer.call_initialize_signal()
 
-	contentContainer.add_enemies_to_game()
+	contentContainer.add_enemyDefs_to_game()
 		
 #func get_player_skin_paths_for_enemy_type(enemy_type):
 	#
