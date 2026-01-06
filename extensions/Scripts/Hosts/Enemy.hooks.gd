@@ -6,11 +6,10 @@ func calculate_score_value(chain: ModLoaderHookChain):
 		chain.execute_next()
 		return
 
-	#if not, temporarily replace the enemy_type with a normal one, and do your calculation
+	#if not, temporarily replace the enemy_type with shotgun, so you can do your calculation
 	var orig_enemy_type = chain.reference_object.enemy_type
 	chain.reference_object.enemy_type = Enemy.EnemyType.SHOTGUN
-
-	#pretend we're normal and run
+	#do your calculation
 	chain.execute_next()
 	
 	#get the result from the normal calculation
@@ -19,7 +18,8 @@ func calculate_score_value(chain: ModLoaderHookChain):
 	#reverse engineer the multiplier based on the result we got from a shotgunbot
 	#todo: factor in elite?
 	var reverse_engineered_score_mult = shotgunResult/Fitness.enemy_score_values[Enemy.EnemyType.SHOTGUN]
+	#go back to our not normal enemy
 	chain.reference_object.enemy_type = orig_enemy_type
 	
-	#multiply based on our funny score mult we devised
+	#set the score based on our multiplier. TODO round again
 	chain.reference_object.score = reverse_engineered_score_mult * GameManager.contentContainer.custom_enemies[orig_enemy_type].fitness_score

@@ -56,7 +56,7 @@ class CustomEnemyDef:
 	var scene = null
 	var scene_path
 	var default_skin_path
-	var fitness_score
+	var fitness_score = 50
 	# 1-3. 0 means we will not try to replace this bot into levels
 	var spawn_level
 	# weight distgributed among bots of same tier for how often this bot will spawn. used to calculate spawn_chance
