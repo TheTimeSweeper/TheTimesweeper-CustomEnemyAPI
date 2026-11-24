@@ -10,17 +10,23 @@ func start_wave(chain: ModLoaderHookChain, wave_number):
 			var lv1_enemydefs = GameManager.contentContainer.get_enemyDefs_by_level(1)
 			for enemyDef in lv1_enemydefs:
 				if randf() < enemyDef.spawn_chance:
-					set_spawn_zone_enemy(spawn_zone, enemyDef.index)
+					set_spawn_zone_enemy(spawn_zone, enemyDef)
 
 	chain.execute_next([wave_number])
 
+func set_spawn_zone_enemy(spawn_zone, enemyDef):
 
-func set_spawn_zone_enemy(spawn_zone, enemyIndex):
-	spawn_zone.enemy_type = enemyIndex
-	
-	# we have just done some unholy stuff and a setter is about to try and fail to run. we basically have to do everything the setter was going to do I think
-	# we hook spawnzone.set_sprite(enemy_type) to fix it
+	spawn_zone.enemy_type = enemyDef.index
+	spawn_zone.enemy_ai = enemyDef.ai_type.new()
 
-	# TODO: This will break get_all_AI_upgrades_for_enemy_type, I just learned.
-	# enemy_ai = null
-		# guess we don't have to worry about it cause we aren't adding any bots to the golem fight :lul:
+	# redo just this part of of the enemy_type set property with our enemy type, as it will fail in the vanilla property.
+	if spawn_zone.enemy_ai != null:
+		var states_string_array = PackedStringArray()
+		for state in spawn_zone.enemy_ai.INITIAL_STATES:
+			states_string_array.append(spawn_zone.enemy_ai.States.keys()[state])
+		states_string_array.append("DEFAULT")
+		spawn_zone.enemy_state_hints = ",".join(states_string_array)
+	else:
+		spawn_zone.enemy_state_hints = ""
+
+

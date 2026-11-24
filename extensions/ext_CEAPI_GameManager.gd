@@ -3,14 +3,11 @@ extends "res://Globals/GameManager.gd"
 var contentContainer
 
 func spawn_enemy(type: Enemy.EnemyType):
-	if type <= contentContainer.vanilla_enum_limit:
-		return super.spawn_enemy(type)
-		
-	var new_enemy = contentContainer.custom_enemies[type].scene.instantiate()
-	new_enemy.add_to_group("enemy")	
-	enemy_count += 1
-	hosts.append(new_enemy)
-	return new_enemy
+	var newEnemy = super.spawn_enemy(type)
+	if type > contentContainer.vanilla_enum_limit:
+		newEnemy.enemy_type = type;
+
+	return newEnemy;
 
 func _ready():
 

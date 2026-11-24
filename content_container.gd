@@ -16,7 +16,7 @@ func call_initialize_signal():
 	initialize.emit()
 
 func cc_initialize():
-	vanilla_enum_limit = GameManager.enemy_scenes.size()
+	vanilla_enum_limit = 11;
 	custom_enemy_enum = vanilla_enum_limit + 1;
 
 func create_new_enemyDef():
@@ -29,8 +29,13 @@ func add_enemyDef(enemyDef):
 	return enemyDef.index
 
 func add_enemyDefs_to_game():
-	for enemy in custom_enemies.values():
+	for enemy : CustomEnemyDef in custom_enemies.values():
 		validate_enemyDef(enemy)
+		GameManager.enemy_scenes[enemy.index] = enemy.scene;
+		Fitness.enemy_score_values[enemy.index] = enemy.fitness_score
+		Enemy.ENEMY_NAME[enemy.index] = enemy.name
+		# entirely used for editor. fallback to shotgun for now. if we have custom maps we can implement this properly later
+		Enemy.enemy_icon_paths[enemy.index] = Enemy.enemy_icon_paths[0]
 		# GameManager.enemy_scenes[enemy.index] = enemy.scene
 
 func validate_enemyDef(enemy):
@@ -54,6 +59,7 @@ class CustomEnemyDef:
 
 	var name
 	var scene = null
+	var ai_type : GDScript
 	var scene_path
 	var default_skin_path
 	var fitness_score = 50
