@@ -45,15 +45,11 @@ func install_script_extensions() -> void:
 	# ? Brief description/reason behind this edit of vanilla code...
 	# used as an entry point for the API to add bots to the game after all other mods have registered them with the API
 	ModLoaderMod.install_script_extension(extensions_dir_path.path_join("ext_CEAPI_GameManager.gd"))
-	# no longer needed ModLoaderMod.install_script_extension(extensions_dir_path.path_join("ext_CEAPI_Enemy.gd"))
 
 
 func install_script_hook_files() -> void:
 	extensions_dir_path = mod_dir_path.path_join("extensions")
-	# ModLoaderMod.install_script_hooks("res://main.gd", extensions_dir_path.path_join("main.gd"))
-	# ModLoaderMod.install_script_hooks("res://Scripts/Hosts/Enemy.gd", extensions_dir_path.path_join("Scripts/Hosts/Enemy.hooks.gd"))
 	ModLoaderMod.install_script_hooks("res://Scripts/Discrete/DiscreteEncounter.gd", extensions_dir_path.path_join("Scripts/Discrete/DiscreteEncounter.hooks.gd"))
-	# ModLoaderMod.install_script_hooks("res://Scripts/LevelMetadata/Zones/SpawnZone.gd", extensions_dir_path.path_join("Scripts/LevelMetadata/Zones/SpawnZone.hooks.gd"))
 
 
 func _ready() -> void:
